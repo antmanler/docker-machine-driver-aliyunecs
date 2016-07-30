@@ -24,13 +24,12 @@ import (
 	"github.com/docker/machine/libmachine/mcnutils"
 	"github.com/docker/machine/libmachine/ssh"
 	"github.com/docker/machine/libmachine/state"
-	//"os"
 )
 
 const (
 	driverName               = "aliyunecs"
-	defaultRegion            = "cn-hangzhou"
-	defaultInstanceType      = "ecs.t1.small"
+	defaultRegion            = "cn-shanghai"
+	defaultInstanceType      = "ecs.n1.medium"
 	defaultRootSize          = 20
 	internetChargeType       = "PayByTraffic"
 	ipRange                  = "0.0.0.0/0"
@@ -104,7 +103,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 		},
 		mcnflag.StringFlag{
 			Name:   "aliyunecs-region",
-			Usage:  "ECS region, default cn-hangzhou",
+			Usage:  "ECS region, default " + defaultRegion,
 			Value:  defaultRegion,
 			EnvVar: "ECS_REGION",
 		},
@@ -239,7 +238,7 @@ func (d *Driver) GetImageID(image string) string {
 		ImageOwnerAlias: ecs.ImageOwnerSystem,
 	}
 
-	// Scan registed images with prefix of ubuntu1404_64_20G_
+	// Scan registed images with prefix of ubuntu1404_64_
 	for {
 		images, pagination, err := d.getClient().DescribeImages(&args)
 		if err != nil {
