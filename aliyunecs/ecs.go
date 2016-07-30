@@ -1206,6 +1206,8 @@ func (d *Driver) uploadKeyPair() error {
 
 	d.fixRoutingRules(sshClient)
 
+	d.installCurl(sshClient)
+
 	if d.DiskSize > 0 {
 		d.autoFdisk(sshClient)
 	}
@@ -1248,4 +1250,11 @@ func (d *Driver) upgradeKernel(sshClient ssh.Client, tcpAddr string) {
 	log.Infof("%s | Restart VM instance for kernel update ...", d.MachineName)
 	d.Restart()
 	time.Sleep(30 * time.Second)
+}
+
+// Install curl
+func (d *Driver) installCurl(sshClient ssh.Client) {
+	log.Debugf("%s | install curl ...", d.MachineName)
+	output, err := sshClient.Output("for i in 1 2 3 4 5; do apt-get install -y curl && break || sleep 5; done")
+	log.Infof("%s | apt-get install curl err, output: %v: %s", d.MachineName, err, output)
 }
