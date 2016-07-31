@@ -190,11 +190,13 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 		mcnflag.StringFlag{
 			Name:   "aliyunecs-system-disk-category",
 			Usage:  "System disk category for instance",
+			Value:  "cloud_efficiency",
 			EnvVar: "ECS_SYSTEM_DISK_CATEGORY",
 		},
 		mcnflag.StringFlag{
 			Name:   "aliyunecs-disk-category",
 			Usage:  "Data disk category for instance",
+			Value:  "cloud_efficiency",
 			EnvVar: "ECS_DISK_CATEGORY",
 		},
 		mcnflag.BoolFlag{
@@ -205,7 +207,7 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 		mcnflag.StringFlag{
 			Name:   "aliyunecs-io-optimized",
 			Usage:  "I/O optimized instance",
-			Value:  "",
+			Value:  "optimized",
 			EnvVar: "ECS_IO_OPTIMIZED",
 		},
 		mcnflag.StringFlag{
