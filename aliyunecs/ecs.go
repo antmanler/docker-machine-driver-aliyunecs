@@ -1218,6 +1218,8 @@ func (d *Driver) uploadKeyPair() error {
 		d.upgradeKernel(sshClient, tcpAddr)
 	}
 
+	d.enableNFS(sshClient)
+
 	return nil
 }
 
@@ -1259,4 +1261,13 @@ func (d *Driver) installCurl(sshClient ssh.Client) {
 	log.Debugf("%s | install curl ...", d.MachineName)
 	output, err := sshClient.Output("for i in 1 2 3 4 5; do apt-get install -y curl && break || sleep 5; done")
 	log.Infof("%s | apt-get install curl err, output: %v: %s", d.MachineName, err, output)
+}
+
+// Enable NFS
+func (d *Driver) enableNFS(sshClient ssh.Client) {
+	log.Debugf("%s | enabling nfs ...", d.MachineName)
+	output, err := sshClient.Output("modprobe nfs && lsmod | grep nfs")
+	log.Infof("%s | modprobe nfs err, output: %v: %s", d.MachineName, err, output)
+	output, err = sshClient.Output(`echo nfs >>/etc/modules && cat /etc/modules`)
+	log.Infof("%s | echo nfs >>/etc/modules err, output: %v: %s", d.MachineName, err, output)
 }
